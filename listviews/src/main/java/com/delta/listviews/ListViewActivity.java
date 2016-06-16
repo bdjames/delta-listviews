@@ -10,6 +10,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 
 public class ListViewActivity extends Activity {
     //initial data
@@ -43,12 +45,46 @@ public class ListViewActivity extends Activity {
             "Spawrk's House",
     };
 
+    private ListView mListView;
+    private PlaceAdapter mPlaceAdapter;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_view);
 
-    }
+
+        mListView = (ListView) findViewById(R.id.myListView);
+        mPlaceAdapter = new PlaceAdapter(getApplicationContext(),R.layout.row,myPlacesArray);
+
+        if(mListView != null) {
+            mListView.setAdapter(mPlaceAdapter);
+
+
+            mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                    Log.v("Place", myPlacesArray[i].mNameOfPlace);
+
+                }
+            });
+
+        }
+
+        mArrayAdapter = new ArrayAdapter(this,android.R.layout.simple_list_item_1,myStringArray);
+
+        if(mListView != null){
+            mListView.setAdapter(mArrayAdapter);
+        }
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.v("Place", myStringArray[i])
+            }
+        }
+    });
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
